@@ -1,0 +1,154 @@
+
+
+:root {
+	/* dark theme */
+	--primary: #262626;
+	--secondary: #dcdcdc;
+	--highlights: #3d3d3dab;
+	--special: #7a7a7aad;
+}
+
+body {
+	background-color: var(--primary);
+	color: var(--secondary);
+}
+
+.selected {
+	background-color: var(--highlights);
+}
+
+.draggable {
+	position: absolute;
+}
+
+.App,
+.side {
+	display: flex;
+}
+
+.board,
+.side {
+	margin: 15px;
+	padding: 20px;
+}
+
+.board {
+	min-width: 70%;
+	width: fit-content;
+	display: flex;
+	flex-flow: row wrap;
+}
+
+.item {
+	display: block;
+}
+
+.item:nth-child(3n+1) {
+	order: 1;
+}
+.item:nth-child(3n+2) {
+	order: 2;
+}
+.item:nth-child(3n) {
+	order: 3;
+}
+
+.board img,
+.board div,
+.board textarea {
+	flex: auto;
+	height: auto;
+	width: fit-content;
+	min-width: 150px;
+
+}
+
+.side {
+	max-width: 25%;
+	flex-direction: column;
+}
+
+form,
+label {
+	display: flex;
+	flex-direction: column;
+}
+
+img {
+	max-width: 200px;
+	object-fit: contain;
+	box-sizing: content-box;
+	width: 100%;
+	height: 100%;
+}
+
+// .draggable{
+//     resize: both;
+//     overflow: auto;
+// }
+
+// .draggable .group{
+//     max-width: 50%;
+//     max-height: 50%;
+// }
+
+.group {
+	border: 1px solid var(--secondary);
+	width: fit-content;
+	display: flex;
+	flex-wrap: wrap;
+	box-sizing: content-box;
+}
+
+img,
+.group,
+textarea,
+form {
+	margin: 10px;
+	padding: 15px;
+}
+
+button,
+input,
+label,
+textarea {
+	padding: 10px;
+	margin: 5px 0;
+	background-color: transparent;
+	border: none;
+	border-radius: 5px;
+	color: var(--secondary);
+}
+
+textarea {
+	border: 1px solid var(--secondary);
+	margin: 5px;
+}
+
+textarea:focus,
+textarea:focus-visible {
+	outline: 1px solid var(--highlights);
+}
+
+button,
+input {
+	background-color: var(--highlights);
+}
+
+label {
+	font-size: small;
+	padding: 0;
+}
+
+input:focus,
+input:focus-within,
+input:active {
+	background-color: var(--special);
+	border: none;
+	outline: 1px solid var(--special);
+}
+
+button:disabled {
+	background-color: var(--special);
+}
+

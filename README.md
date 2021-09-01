@@ -1,14 +1,28 @@
 
 # Artboard
 
-A jamboard-like app, created with [React](https://reactjs.org/), where you can add images, notes and groups containing other images, notes and groups. [Each][\*] has a draggable version.  
+A Jamboard-like application for art references, in which the user can add, delete and group images and notes.  
+
+The items can be static, creating a masonry pattern on the board, or draggable, so they can be positioned anywhere on it. 
+
+The groups have a list of elements of any kind, including other groups, forming a tree-like structure out of them. It is parsed using depth-first search, with a custom iterator, so the inner groups and items can be modified and deleted. 
+
+The state of the components tree is saved and managed with React Context API. Addition and deletion are managed using a reducer, created with the `useReducer` hook. 
+
+The resulting board can be saved at any time, as a png containing the current board with transparent background. 
 
 The aim of this app is to integrate 5 design patterns: 
 
-1. [Creational](#creational) - [abstract factory](https://refactoring.guru/design-patterns/abstract-factory)
-2. [Structural](#structural) - [composite](https://refactoring.guru/design-patterns/composite), [decorator](https://refactoring.guru/design-patterns/decorator)
-3. [Behavioural](#behavioural) - [iterator](https://refactoring.guru/design-patterns/iterator), [observer](https://refactoring.guru/design-patterns/observer)
+1. [Creational](#creational) - [abstract factory](#abstract-factory)
+2. [Structural](#structural) - [composite](#composite), [decorator](#decorator)
+3. [Behavioral](#behavioral) - [iterator](#iterator), [observer](#observer)
 
+# Setup
+
+```bash
+npm install
+npm start
+```
 
 # Creational
 
@@ -27,38 +41,48 @@ This pattern is useful when you have different types of items and each has more 
 
 - More complex code. 
 
-**In the app**
+**App usage**
 
-[SimpleComponents](./src/components/factory/SimpleComponents.js) and [DraggableComponents](src/components/factory/DraggableComponents.js) are the factories for the simple and draggable elements.
+[SimpleComponents](./src/components/factory/SimpleComponents.js) and [DraggableComponents](src/components/factory/DraggableComponents.js) are the factories for the simple and draggable elements, of each kind. `createImage`, `createNote`, `createGroup` are the common methods for this task. 
 
 # Structural
 
 ## Composite
+
 A group of objects are treated uniformly, as if they were a single instance of the object. 
 There are two types of elements: leaves and composites. The composites contain a list of elements which can be either leaves or other composites. 
 They are treated in the same way, using a Component interface, common to both types. 
 This pattern is also useful when you have objects represented in tree-like structures. 
 
 **Pros**
+
 - Less complex and you don't have to treat nodes and leaves separately. 
 - Open closed principle, you can add new types because you work with the tree like structure. 
 
 **Cons**
+
 - Compoment imterface might become complex if the functionality of the classes differs too much. 
 
-**In the app**
+**App usage**
 
-This pattern is illustrated in [Model](./src/components/model/Model.js).
+The classes defined in [Model](./src/components/model/Model.js) follow a common interface which has the `display()` method. It returns the corresponding tag for each element. 
+
+`Image` and `Note` are the leaf nodes and the `Group` class is the composite, and it has a list of elements and methods to operate on them. 
+
+The `display()` method of the group calls the same method of each element in the list. 
 
 
 ## Decorator
+
 Provides a wrapper class which adds a new feature to the main object.
 
 **Pros**
+
 - Useful when you want to extend object behaviour at runtime and without creating a subclass. 
 - Single responsibility principle, divide a class that implements more behaviours into smaller classes.
 
 **Cons**
+
 - Decorators depend on the order and it's hard to remove one from the "stack of decorators".
 - Complex decorator layer. 
 
@@ -66,18 +90,20 @@ Provides a wrapper class which adds a new feature to the main object.
 **Composite and Decorator**
 
 Both rely on recursive composition of the objects. The decorator has only one child to which it adds more responsibilities, while the composite combines the results obtained from the children.
-The Decorator can be used to extend the  behaviour of a component from the Composite tree. 
 
-**In the app**
+The Decorator can be used to extend the behaviour of a component from the Composite tree. 
 
-You can find the wrapper class in [Draggable](./src/components/model/Draggable.js).
+**App usage**
+
+[Draggable](./src/components/model/Draggable.js) is a wapper class for the elements, making them draggable accross the board. It wraps the tag in another container, which has the draggable property. 
 
 
-# Behavioural
+# Behavioral
 
 ## Iterator
 
 Provides a way to access the items from a colllection without exposing its underlying representation. 
+
 The Iterator usually contains the methods `next`, which returns the next item in the collection, `hasNext`, checks if there are any elements left, and `current`, returning the current element, to traverse the collection. 
 
 **Pros**
@@ -94,16 +120,17 @@ The Iterator usually contains the methods `next`, which returns the next item in
 
 **Iterator and Composite**
 
-The Iterator can be used to traverse the composite collection. 
+The Iterator can be used to traverse the composite collection.
 
 
-**In the app**
+**App usage**
 
-An [Iterator](./src/components/iterator/Iterator.js) that parses the tree using dfs. 
+[Iterator](./src/components/iterator/Iterator.js) receives the list of elements from the context and parses it using depth-first search algorithm to find the next element. A separate iterator was needed since since the overall structure of the `Board` is tree-like. 
 
 
 ## Observer
 Allows more objects (Observers) to observe the changes of another object (Observable). 
+
 The Observable/ Publisher contains a list of Observers/ Subscribers. It can register or unregister them and it notifies each of them when a change takes place, using a `notify` method. This method automatically calls each Observer's `update` method (usually the only method it has), which accepts information about the context or event.
 
 **Pros**
@@ -112,46 +139,11 @@ The Observable/ Publisher contains a list of Observers/ Subscribers. It can regi
 - You can establish relations at runtime.
 
 **Cons**
+
 - The order in which the Subscribers are notified is random. 
 
 
-**In the app**
+**App usage**
 
-This pattern is illustrated using React's useEffect hook and the Context API. 
+This pattern is illustrated using React's useEffect hook and the Context API. Once a new item is selected, the [Side](./src/components/Side.js) is notified to re-render the label with the currently selected item. 
 
-
-## Sources
-- [Refactoring guru](https://refactoring.guru/design-patterns)
-
-
----
-
-
-\[\*]: WIP - Make the groups draggable. 
-
-
-# To do
-
-## Design
-
-- images should fill the space
-- should be a mozaic look (or masonry)
-- textarea border outline should have the same color as the highlight background/
-- don't highlight the whole board/
-- highlight should be darker or transparent/
-
-## General
-
-- better way to handle deletion (add a button on the element)
-- resize elements (the draggable ones)
-- make the images bigger
-
-## Code
-
-- make the draggable group behave normally AND RESIZABLE
-- show error when the image cannot be displayed or no url was provided/
-- draggable group/
-- be able to delete the items from the draggable group/
-
-
-https://blobcdn.same.energy/b/05/5b/055bd5b8ca27d69d07c40909b31796273fac2744

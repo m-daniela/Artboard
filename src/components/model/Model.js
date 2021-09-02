@@ -66,9 +66,9 @@ export class Note{
  * @param {Component[]} elements the children of the composite component
  */
 export class Group{
-    constructor(id, name){
+    constructor(id){
         this.id = id;
-        this.name = name === "" ? "Group" : name;
+        this.name = "Group";
         this.elements = [];
     }
 
@@ -91,8 +91,6 @@ export class Group{
     display = () => {
         return (
             <div className="group item" key={this.id} id={this.id}>
-                {/* <span>{this.name}</span> */}
-                {this.name}
                 {this.elements.map(elem => elem.display())}
             </div>
         );

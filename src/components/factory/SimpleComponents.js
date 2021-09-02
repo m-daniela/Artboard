@@ -13,9 +13,9 @@ const createNote = () => {
     return new Note(id);
 };
 
-const createGroup = (group) => {
+const createGroup = () => {
     const id = getId();
-    return new Group(id, group);
+    return new Group(id);
 };
 
 export const simpleComponents = {

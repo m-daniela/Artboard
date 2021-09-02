@@ -100,6 +100,11 @@ img {
 	box-sizing: content-box;
 }
 
+.group, img, textarea{
+	min-height: 100px;
+
+}
+
 img,
 .group,
 textarea,

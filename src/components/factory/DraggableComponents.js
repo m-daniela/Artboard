@@ -18,10 +18,10 @@ const createNote = () => {
     return new Draggable(id2, note);
 };
 
-const createGroup = (group) => {
+const createGroup = () => {
     const id1 = getId();
     const id2 = getId();
-    const grp = new Group(id1, group);
+    const grp = new Group(id1);
     return new Draggable(id2, grp);
 };
 

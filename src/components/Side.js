@@ -79,9 +79,8 @@ const Side = () => {
     };
 
     const addGroup = () =>{
-        const item = simpleComponents.createGroup(group);
+        const item = simpleComponents.createGroup();
         add(item);
-        setGroup("");
     };
 
     /** Add the draggable elements */
@@ -98,7 +97,7 @@ const Side = () => {
     };
 
     const addDraggableGroup = () =>{
-        const item = draggableComponents.createGroup(group);
+        const item = draggableComponents.createGroup();
         dispatch({type: commands.add, item});
     };
 
@@ -176,10 +175,6 @@ const Side = () => {
             <form className="add_group" onSubmit={e => e.preventDefault()}>
                 <button onClick={addGroup}>Group</button>
                 <button onClick={addDraggableGroup}>Draggable group</button>
-                <label>
-                    Group name
-                    <input type="text" onChange={(e) => setGroup(e.target.value)} value={group}/>
-                </label>
             </form>
             
         </div>

@@ -1,7 +1,7 @@
 
 # Artboard
 
-A Jamboard-like application for art references, in which the user can add, delete and group images and notes.  
+A Jamboard-like application for art references, in which the user can add, delete and group images and notes. Available at [https://m-daniela.github.io/Artboard/](https://m-daniela.github.io/Artboard/). 
 
 The items can be static, creating a masonry pattern on the board, or draggable, so they can be positioned anywhere on it. 
 
